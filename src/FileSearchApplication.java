@@ -1,20 +1,18 @@
 import javax.swing.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
-import java.io.BufferedReader;
-import java.io.File;
-import java.io.FileReader;
-import java.io.IOException;
+import java.io.*;
 
 public class FileSearchApplication {
     private JPanel mainFrame;
     private JButton browseButton;
-    private JTextField displayFilePath;
+    private JTextField filePathField; // Renamed from "filePatch" to "filePathField"
     private JScrollPane matchingLinesResult;
     private JButton searchButton;
-    private JButton saveButton;
     private JTextField userInput;
-    private File selectedFile; // Added to store the selected file
+    private JButton saveButton;
+    private JTextArea resultsTextArea;
+    private File selectedFile;
 
     public FileSearchApplication() {
         browseButton.addActionListener(new ActionListener() {
@@ -25,7 +23,7 @@ public class FileSearchApplication {
 
                 if (returnValue == JFileChooser.APPROVE_OPTION) {
                     selectedFile = fileChooser.getSelectedFile();
-                    displayFilePath.setText(selectedFile.getAbsolutePath());
+                    filePathField.setText(selectedFile.getAbsolutePath());
                 }
             }
         });
@@ -40,7 +38,37 @@ public class FileSearchApplication {
                     JOptionPane.showMessageDialog(mainFrame, "Please select a file to search.");
                 } else {
                     String result = processFile(selectedFile, searchWord);
-                    ((JTextArea) matchingLinesResult.getViewport().getView()).setText(result);
+                    JTextArea textArea = (JTextArea) ((JViewport) matchingLinesResult.getViewport()).getView();
+                    textArea.setText(result);
+                }
+            }
+        });
+
+        saveButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                String resultText = resultsTextArea.getText();
+                if (resultText.isEmpty()) {
+                    JOptionPane.showMessageDialog(mainFrame, "No results to save.");
+                    return; // No results to save
+                }
+
+                JFileChooser fileChooser = new JFileChooser();
+                int returnValue = fileChooser.showSaveDialog(null);
+
+                if (returnValue == JFileChooser.APPROVE_OPTION) {
+                    File selectedFile = fileChooser.getSelectedFile();
+
+                    try {
+                        // Create a FileWriter to write the results to the selected file
+                        FileWriter fileWriter = new FileWriter(selectedFile);
+                        fileWriter.write(resultText);
+                        fileWriter.close();
+
+                        JOptionPane.showMessageDialog(mainFrame, "Results saved successfully.");
+                    } catch (IOException ex) {
+                        JOptionPane.showMessageDialog(mainFrame, "Error saving results: " + ex.getMessage());
+                    }
                 }
             }
         });
