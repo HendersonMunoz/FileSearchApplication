@@ -3,15 +3,17 @@ import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.io.*;
 
+// Automatically generated code, as I build the GUI components via the Swing UI Designer tool
 public class FileSearchApplication {
     private JPanel mainFrame;
     private JButton browseButton;
-    private JTextField filePathField; // Renamed from "filePatch" to "filePathField"
+    private JTextField filePathField;
     private JScrollPane matchingLinesResult;
     private JButton searchButton;
     private JTextField userInput;
     private JButton saveButton;
     private JTextArea resultsTextArea;
+    private JButton clearButton;
     private File selectedFile;
 
     public FileSearchApplication() {
@@ -28,6 +30,7 @@ public class FileSearchApplication {
             }
         });
 
+        // Search Button - code block.
         searchButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -44,6 +47,7 @@ public class FileSearchApplication {
             }
         });
 
+        // Save Button - code block.
         saveButton.addActionListener(new ActionListener() {
             @Override
             public void actionPerformed(ActionEvent e) {
@@ -70,6 +74,17 @@ public class FileSearchApplication {
                         JOptionPane.showMessageDialog(mainFrame, "Error saving results: " + ex.getMessage());
                     }
                 }
+            }
+        });
+
+        // Clear Button - code block.
+        clearButton.addActionListener(new ActionListener() {
+            @Override
+            public void actionPerformed(ActionEvent e) {
+                // Clear the file path, search field, and the text area.
+                filePathField.setText("");
+                userInput.setText("");
+                resultsTextArea.setText("");
             }
         });
     }

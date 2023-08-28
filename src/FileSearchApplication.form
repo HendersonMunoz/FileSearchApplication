@@ -85,6 +85,14 @@
           <text value="Matching Lines:"/>
         </properties>
       </component>
+      <component id="8fff2" class="javax.swing.JButton" binding="clearButton" default-binding="true">
+        <constraints>
+          <grid row="5" column="0" row-span="1" col-span="1" vsize-policy="0" hsize-policy="3" anchor="0" fill="0" indent="0" use-parent-layout="false"/>
+        </constraints>
+        <properties>
+          <text value="Clear"/>
+        </properties>
+      </component>
     </children>
   </grid>
 </form>
